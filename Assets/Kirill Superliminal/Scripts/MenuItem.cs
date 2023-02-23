@@ -1,52 +1,55 @@
 using UnityEngine;
 using System.Collections;
 
-public class MenuItem : MonoBehaviour
+namespace com.filipmorris.game
 {
-    private static float smoothTime = 0.15f;
-    private Vector2 TargetPosition;
-
-    private bool IsEnable { get; set; }
-    private bool IsDestinated { get; set; }
-
-    IEnumerator Delay()
+    public class MenuItem : MonoBehaviour
     {
-        int id = transform.GetSiblingIndex();
-        yield return new WaitForSeconds(id * smoothTime);
-        IsEnable = true;
-    }
+        private static float smoothTime = 0.15f;
+        private Vector2 TargetPosition;
 
-    private void Awake()
-    {
-        TargetPosition = transform.localPosition;
-    }
+        private bool IsEnable { get; set; }
+        private bool IsDestinated { get; set; }
 
-    private void OnEnable()
-    {
-        IsEnable = false;
-        IsDestinated = false;
-
-        transform.localPosition += Vector3.down * 2000;
-
-        StartCoroutine(nameof(Delay));
-    }
-
-    private void OnDisable()
-    {
-        StopCoroutine(nameof(Delay));
-    }
-
-    private void Update()
-    {
-        if(!IsEnable || IsDestinated)
+        IEnumerator Delay()
         {
-            return;
+            int id = transform.GetSiblingIndex();
+            yield return new WaitForSeconds(id * smoothTime);
+            IsEnable = true;
         }
 
-        transform.localPosition = Vector2.MoveTowards(transform.localPosition, TargetPosition, 6000 * Time.deltaTime);
-        if((Vector2)transform.localPosition == TargetPosition)
+        private void Awake()
         {
-            IsDestinated = true;
+            TargetPosition = transform.localPosition;
+        }
+
+        private void OnEnable()
+        {
+            IsEnable = false;
+            IsDestinated = false;
+
+            transform.localPosition += Vector3.down * 2000;
+
+            StartCoroutine(nameof(Delay));
+        }
+
+        private void OnDisable()
+        {
+            StopCoroutine(nameof(Delay));
+        }
+
+        private void Update()
+        {
+            if (!IsEnable || IsDestinated)
+            {
+                return;
+            }
+
+            transform.localPosition = Vector2.MoveTowards(transform.localPosition, TargetPosition, 6000 * Time.deltaTime);
+            if ((Vector2)transform.localPosition == TargetPosition)
+            {
+                IsDestinated = true;
+            }
         }
     }
 }
