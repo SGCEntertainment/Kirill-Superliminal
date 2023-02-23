@@ -9,7 +9,9 @@ env:
   
   APP_NAME: "Kirill Superliminal"
 
-  buildWindows:
+jobs:
+
+  buildStandaloneWindows64:
     name: Build for StandaloneWindows64
     runs-on: ubuntu-latest
     strategy:
